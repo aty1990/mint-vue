@@ -102,6 +102,7 @@ module.exports = {
         extensions: ['.js', '.vue', '.jsx'], //后缀名自动补全
         alias: {
           'vue$': 'vue/dist/vue',
+          'assets' : path.resolve(__dirname ,"src/assets"),
           'pages' : path.resolve(__dirname ,"src/page"),
           'components' : path.resolve(__dirname ,"src/page/components"),
           'jquery': 'jquery' 
