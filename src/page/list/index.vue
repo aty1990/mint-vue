@@ -2,51 +2,56 @@
 	
 </style>
 <template>
-	<div>
-		<mt-button @click.native="toast">toast</mt-button>
-		<mt-button @click.native="startHacking">加载中</mt-button>
+	<div class="home-container">
+		<div class="mint-buttons">
+			<mt-button @click.native="toast">toast</mt-button>
+			<mt-button @click.native="startHacking">加载中</mt-button>
+		    <mt-button @click.native="actionsheet">Actionsheet</mt-button>
+		    <mt-actionsheet
+		      :actions="actions"
+		      v-model="sheetVisible">
+		    </mt-actionsheet>
+			
+			<mt-button @click.native="open('picker1')">DatetimePicker</mt-button>
 
-	    <mt-button @click.native="actionsheet">Actionsheet</mt-button>
-	    <mt-actionsheet
-	      :actions="actions"
-	      v-model="sheetVisible">
-	    </mt-actionsheet>
+			<mt-datetime-picker
+		      ref="picker1"
+		      v-model="value"
+		      @confirm="handleChange">
+		    </mt-datetime-picker>
+
+		    <mt-switch v-model="value1" @change="switch_plug">开关</mt-switch>	
+		</div>
 		
-		<mt-button @click.native="open('picker1')">DatetimePicker</mt-button>
-
-		<mt-datetime-picker
-	      ref="picker1"
-	      v-model="value"
-	      @confirm="handleChange">
-	    </mt-datetime-picker>
-
-	    <mt-switch v-model="value1" @change="switch_plug">开关</mt-switch>
-
 	    <mt-checklist
 	      class="page-part"
 	      title="复选框列表"
 	      v-model="value2"
 	      :options="options1">
 	    </mt-checklist>
-		
+		<br>
 		<router-link to="/home">
 			<mt-cell title="表单" value="这是描述"></mt-cell>
 		</router-link>
-
+		<br>
 		<router-link to="/tabbar">
 			<mt-cell title="tabbar" value="tabbar"></mt-cell>
 		</router-link>
-
+		<br>
 		<router-link to="/navbar">
 			<mt-cell title="navbar" value="navbar"></mt-cell>
 		</router-link>
-
+		<br>
 		<router-link to="/button">
 			<mt-cell title="button" value="button"></mt-cell>
 		</router-link>
-
+		<br>
 		<router-link to="/lazyload">
 			<mt-cell title="lazyload" value="延迟加载"></mt-cell>
+		</router-link>
+		<br>
+		<router-link to="/slot">
+			<mt-cell title="slot" value="插槽"></mt-cell>
 		</router-link>
 
 	</div>
