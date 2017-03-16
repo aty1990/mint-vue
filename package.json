@@ -8,6 +8,9 @@
     "build": "cross-env NODE_ENV=production gulp devBuild"
   },
   "dependencies": {
+    "jquery": "^2.2.3",
+    "less": "^2.7.2",
+    "less-loader": "^3.0.0",
     "mint-ui": "^2.0.4",
     "vue": "^2.0.1"
   },

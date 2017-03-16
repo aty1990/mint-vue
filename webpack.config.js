@@ -7,13 +7,38 @@ var plugins = []
 
 plugins.push(new webpack.optimize.CommonsChunkPlugin('common'))
 
-if (IS_ENV) { //生产环境
+// 引入jquery
+plugins.push(new webpack.ProvidePlugin({
+    jQuery : 'jquery',
+    $ : 'jquery'
+}))
+
+if (IS_ENV) { 
+    // 生产环境
     plugins.push(new webpack.DefinePlugin({
         'process.env': { //设置成生产环境
             NODE_ENV: '"production"'
         }
     }))
-    plugins.push(new webpack.optimize.UglifyJsPlugin({ //压缩代码
+    // 自动补全
+    plugins.push(new webpack.LoaderOptionsPlugin({
+       options: {
+            vue: {
+                postcss: [
+                    require('autoprefixer')({
+                        browsers: [
+                            'last 3 versions',
+                            'ie >= 8',
+                            'ff >= 30',
+                            'chrome >= 31'
+                        ]
+                    })
+                ]
+            }
+       }
+    }))
+    // 压缩代码
+    plugins.push(new webpack.optimize.UglifyJsPlugin({ 
         compress: {
             warnings: false
         }
@@ -39,33 +64,37 @@ module.exports = {
     },
     module: {
         rules: [
-          {
-            test: /\.vue$/,
-            loader: 'vue-loader',
-            options: {
-              // vue-loader options go here
+            {
+                test: /\.vue$/,
+                loader: 'vue-loader',
+                options: {
+                // vue-loader options go here
+                }
+            },
+            {
+                test: /\.js$/,
+                loader: 'babel-loader',
+                exclude: /node_modules/
+            },
+            {
+                test: /\.css$/,
+                loader: 'style-loader!css-loader'
+            },
+            {
+                test: /\.less$/,
+                loader: "style-loader!css-loader!less-loader",
+            },
+            {
+                test: /\.(eot|svg|ttf|woff|woff2)(\?\S*)?$/,
+                loader: 'file-loader'
+            },
+            {
+                test: /\.(png|jpe?g|gif|svg)(\?\S*)?$/,
+                loader: 'file-loader',
+                query: {
+                  name: '[name].[ext]?[hash]'
+                }
             }
-          },
-          {
-            test: /\.js$/,
-            loader: 'babel-loader',
-            exclude: /node_modules/
-          },
-          {
-            test: /\.css$/,
-            loader: 'style-loader!css-loader'
-          },
-          {
-            test: /\.(eot|svg|ttf|woff|woff2)(\?\S*)?$/,
-            loader: 'file-loader'
-          },
-          {
-            test: /\.(png|jpe?g|gif|svg)(\?\S*)?$/,
-            loader: 'file-loader',
-            query: {
-              name: '[name].[ext]?[hash]'
-            }
-          }
         ]
     },
     plugins,
@@ -74,8 +103,11 @@ module.exports = {
         alias: {
           'vue$': 'vue/dist/vue',
           'pages' : path.resolve(__dirname ,"src/page"),
+          'components' : path.resolve(__dirname ,"src/page/components"),
+          'jquery': 'jquery' 
         }
     },
+    
     devServer: {
         historyApiFallback: true,
         noInfo: true
