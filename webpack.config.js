@@ -49,7 +49,14 @@ plugins.push(
     new HtmlWebpackPlugin({ //根据模板插入css/js等生成最终HTML
         filename: './index.html', //生成的html存放路径，相对于 path
         title :'vue2+mint移动框架',
-        template: './src/app/app.html' //html模板路径
+        template: './src/app/app.html', //html模板路径
+        inject: true, //允许插件修改哪些内容，包括head与body
+        favicon: "./favicon.ico",
+        minify: { //压缩HTML文件
+            removeComments: true, //移除HTML中的注释
+            collapseWhitespace: false, //删除空白符与换行符
+            //removeAttributeQuotes: true
+        }
     })
 )
 
@@ -64,6 +71,15 @@ module.exports = {
     },
     module: {
         rules: [
+            {
+                test: /\.html$/,
+                use: [{
+                    loader: 'html-loader',
+                    options: {
+                        attrs: ['img:src', 'link:href']
+                    }
+               }]
+            },
             {
                 test: /\.vue$/,
                 loader: 'vue-loader',

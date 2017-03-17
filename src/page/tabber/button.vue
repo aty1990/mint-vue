@@ -31,13 +31,18 @@
 		</keep-alive>
 
 		<br>
+
 		<mt-button @click.native="call_child"  size="large">调用子组件的方法</mt-button><br>
+
+		<!-- 监听子组件事件 -->
+		<v-prop  :userInfo="userInfo" :my-message="msg01" @increment="accept">12313</v-prop>
 
 		{{printUser}}
 	</div>
 </template>
 <script>
 	import Hello from 'components/Hello'
+	import Prop from 'components/prop'
     export default {
     	name: 'page-button',
         data() {
@@ -46,11 +51,17 @@
 				lastName : '薪水',
 				msg01: "this is parent msg01",
         		msg02: "this is parent msg02",
-				msg03: "this is parent msg03"
+				msg03: "this is parent msg03",
+				userInfo : {
+					userName:'admin',
+					age : '27',
+					password : '123456'
+				}
 			}
 		},
 		components : {
-			"v-hello" : Hello
+			"v-hello" : Hello,
+			"v-prop" : Prop
 		},
 		methods: {
             handleClick () {
@@ -67,6 +78,9 @@
             },
             call_child () {
             	this.$refs.hello.printText(this.firstName+this.lastName);
+            },
+            accept ( ) {
+            	this.$toast("ok")
             }
 		},
 		computed : {
